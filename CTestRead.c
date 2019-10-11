@@ -20,13 +20,15 @@ int main(int argc, char *argv[]){
 	}
 	printf("\n");
 
-	// Print out a visual representation of the first image (7)
-	for (i = 0; i < 28; i++){
-		for (j = 0; j < 28; j++){
-			fread(&b, 1, 1, f);
-			printf("%s", (b > 127) ? "0" : ".");
+	// Print out a visual representation of the first three images (7)
+	for (k = 0; k < 3; k++){
+		for (i = 0; i < 28; i++){
+			for (j = 0; j < 28; j++){
+				fread(&b, 1, 1, f);
+				printf("%s", (b > 127) ? "0" : ".");
+			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 
 	printf("\n");
