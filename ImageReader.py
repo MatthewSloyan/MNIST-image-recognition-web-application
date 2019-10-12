@@ -27,5 +27,14 @@ image = ~np.array(list(file_content[16:800])).reshape(28,28).astype(np.uint8)
 # Display plot of image
 plt.imshow(image, cmap='gray')
 
+# Open the label dataset like before.
+with gzip.open('MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+    labels = f.read()
+
+# Get the label for a specific image (Expected result = 4)
+print(int.from_bytes(labels[12:13], byteorder="big"))
+
+
+
 
 
