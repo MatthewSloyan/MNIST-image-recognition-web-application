@@ -1,6 +1,10 @@
 # Adapted from: https://docs.python.org/3/library/gzip.html
 
 import gzip
+import numpy as np
+#%matplotlib inline
+import matplotlib.pyplot as plt
+#plt.use("gtk")
 
 # Open the MNIST dataset of 60000 training images.
 with gzip.open('MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
@@ -16,4 +20,12 @@ print(file_content[0:4])
 # Convert bytes to a 32 bit integer using big-endian and little-endian.
 print(int.from_bytes(file_content[0:4], byteorder='big')) #2051
 print(int.from_bytes(file_content[0:4], byteorder='little')) #50855936
+
+# Display a single image from the dataset
+image = ~np.array(list(file_content[16:800])).reshape(28,28).astype(np.uint8)
+
+# Display plot of image
+plt.imshow(image, cmap='gray')
+
+
 
