@@ -1,6 +1,7 @@
 # Adapted from: https://docs.python.org/3/library/gzip.html
 
 import keras as kr
+import sklearn.preprocessing as pre # For encoding categorical variables.
 import gzip
 import numpy as np
 import matplotlib.pyplot as plt
@@ -71,5 +72,4 @@ with gzip.open('MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
 train_img = ~np.array(list(train_img[16:])).reshape(60000, 28, 28).astype(np.uint8) / 255.0
 train_lbl =  np.array(list(train_lbl[ 8:])).astype(np.uint8)
 inputs = train_img.reshape(60000, 784)
-
 
