@@ -47,7 +47,7 @@ for x in image[0:28]:
 plt.imshow(image, cmap='gray')
 plt.show()
 
-# Test code to train neural network, this will be then later converted to a Jupyter Notebook.
+# Test code to train the model using a Keras neural network, this will be then later converted to a Jupyter Notebook.
 # =========================
 
 # Start a neural network, building it by layers.
@@ -68,6 +68,7 @@ with gzip.open('MNIST_Images/train-images-idx3-ubyte.gz', 'rb') as f:
 with gzip.open('MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
     train_lbl = f.read()
 
+# Parse files into lists
 # The bitwise operator ~ (tilde) is a complement operator. It takes one bit operand and returns its complement. If the operand is 1, it returns 0, and if it is 0, it returns 1
 train_img = ~np.array(list(train_img[16:])).reshape(60000, 28, 28).astype(np.uint8) / 255.0
 train_lbl =  np.array(list(train_lbl[ 8:])).astype(np.uint8)
@@ -84,4 +85,24 @@ for i in range(10):
 
 model.fit(inputs, outputs, epochs=2, batch_size=100)
 
+# Test code to test trained model above
+# =========================
+
+with gzip.open('MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
+    test_img = f.read()
+
+with gzip.open('MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+    test_lbl = f.read()
+
+# Parse files into lists    
+test_img = ~np.array(list(test_img[16:])).reshape(10000, 784).astype(np.uint8) / 255.0
+test_lbl =  np.array(list(test_lbl[ 8:])).astype(np.uint8)
+
+(encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum()
+
+# Predict image using model
+model.predict(test_img[5:6])
+
+plt.imshow(test_img[5].reshape(28, 28), cmap='gray')
+plt.show()
 
