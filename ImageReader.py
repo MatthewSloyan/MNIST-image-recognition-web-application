@@ -1,14 +1,14 @@
-# Adapted from: https://docs.python.org/3/library/gzip.html
-
 import keras as kr
 import sklearn.preprocessing as pre # For encoding categorical variables.
-import gzip
+import gzip 
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.models import load_model
 
 # Test code to learn more about the MNIST dataset, how it works etc.
 # ======================
 
+# Adapted from: https://docs.python.org/3/library/gzip.html
 # Open the MNIST dataset of 10000 testing images.
 with gzip.open('MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
     file_content = f.read()
@@ -50,6 +50,13 @@ plt.show()
 # Test code to train the model using a Keras neural network, this will be then later converted to a Jupyter Notebook.
 # =========================
 
+# Read in the training images (60000)
+with gzip.open('MNIST_Images/train-images-idx3-ubyte.gz', 'rb') as f:
+    train_img = f.read()
+
+with gzip.open('MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
+    train_lbl = f.read()
+
 # Start a neural network, building it by layers.
 model = kr.models.Sequential()
 
@@ -61,12 +68,6 @@ model.add(kr.layers.Dense(units=10, activation='softmax'))
 
 # Build the graph.
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-with gzip.open('MNIST_Images/train-images-idx3-ubyte.gz', 'rb') as f:
-    train_img = f.read()
-
-with gzip.open('MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
-    train_lbl = f.read()
 
 # Parse files into lists
 # The bitwise operator ~ (tilde) is a complement operator. It takes one bit operand and returns its complement. If the operand is 1, it returns 0, and if it is 0, it returns 1
@@ -83,7 +84,13 @@ print(train_lbl[0], outputs[0])
 for i in range(10):
     print(i, encoder.transform([i]))
 
-model.fit(inputs, outputs, epochs=2, batch_size=100)
+# https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
+# Rather than retraining the model again and again I wanted to be able to save and load it, so I researched and found a way to achieve this.
+try:
+    model = load_model('test_model.h5')
+except:
+    model.fit(inputs, outputs, epochs=2, batch_size=100)
+    model.save('test_model.h5')
 
 # Test code to test trained model above
 # =========================
@@ -105,4 +112,3 @@ model.predict(test_img[5:6])
 
 plt.imshow(test_img[5].reshape(28, 28), cmap='gray')
 plt.show()
-
