@@ -61,20 +61,25 @@ model.add(kr.layers.Dense(units=10, activation='softmax'))
 # Build the graph.
 # categorical_crossentropy - loss function that is used for single label categorization.
 # Used classification problems where only one result can be correct. E.g number is a 9
+# adam - Computationally efficient and benefits from both AdaGrad and RMSProp optimizers.
+# accuracy - Display accuracy results when training
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# Parse files into lists
+# Parse image and labels into lists
 # The bitwise operator ~ (tilde) is a complement operator. It takes one bit operand and returns its complement. If the operand is 1, it returns 0, and if it is 0, it returns 1
 train_img = ~np.array(list(train_img[16:])).reshape(60000, 28, 28).astype(np.uint8) / 255.0
 train_lbl =  np.array(list(train_lbl[ 8:])).astype(np.uint8)
 inputs = train_img.reshape(60000, 784)
 
+# Encode labels into binary using sklearn, so they can be compared easily.
+# E.g 0 = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1 = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0] etc.
 encoder = pre.LabelBinarizer()
 encoder.fit(train_lbl)
 outputs = encoder.transform(train_lbl)
 
 print(train_lbl[0], outputs[0])
 
+# Print out binary value for each number 0-9. 
 for i in range(10):
     print(i, encoder.transform([i]))
 
@@ -83,26 +88,33 @@ for i in range(10):
 try:
     model = load_model('test_model.h5')
 except:
+    # If model isn't found train model using 2 epochs
+    # One Epoch is when an entire dataset is passed forward and backward through the neural network only once.
     model.fit(inputs, outputs, epochs=2, batch_size=100)
     model.save('test_model.h5')
 
 # Test code to test trained model above
 # =========================
 
+# Open test images (10000)
 with gzip.open('MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
     test_img = f.read()
 
 with gzip.open('MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
     test_lbl = f.read()
 
-# Parse files into lists    
+# Parse images and labels into lists    
 test_img = ~np.array(list(test_img[16:])).reshape(10000, 784).astype(np.uint8) / 255.0
 test_lbl =  np.array(list(test_lbl[ 8:])).astype(np.uint8)
 
-(encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum()
+# Calculate the sum of correct results out of all 10000 images using the labels
+# Last test returned a result of 9507. 
+print("Sum of correct results:", (encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum())
 
 # Predict image using model
-model.predict(test_img[5:6])
+# Last test returned a 5 which is correct.
+print("Test image:", model.predict(test_img[15:16]))
 
-plt.imshow(test_img[5].reshape(28, 28), cmap='gray')
+# Display correct image - 5
+plt.imshow(test_img[15].reshape(28, 28), cmap='gray')
 plt.show()
