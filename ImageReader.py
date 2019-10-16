@@ -1,9 +1,36 @@
+# https://keras.io/getting-started/faq/#how-can-i-obtain-reproducible-results-using-keras-during-development
+# From our lecturer I found that it was best to seed the random weight generator to get reproducible results.
+# As TensorFlow will automatically assign random weights on each run based on probibility.
+# To achieve this I found documentation on the Keras website above, which I have adapted.
+import numpy as np
+import tensorflow as tf
+import random as rn
+
+# The below is necessary for starting Numpy and core Python generated random numbers in a well-defined initial state.
+np.random.seed(42)
+rn.seed(12345)
+
+# Force TensorFlow to use single thread.
+# Multiple threads are a potential source of non-reproducible results.
+# For further details, see: https://stackoverflow.com/questions/42022950/
+session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+
+from keras import backend as K
+
+# The below tf.set_random_seed() will make random number generation
+# in the TensorFlow backend have a well-defined initial state.
+# For further details, see: https://www.tensorflow.org/api_docs/python/tf/set_random_seed
+tf.set_random_seed(1234)
+
+sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
+K.set_session(sess)
+
+# Additional Imports
 import keras as kr
+from keras.models import load_model
 import sklearn.preprocessing as pre # For encoding categorical variables.
 import gzip 
-import numpy as np
 import matplotlib.pyplot as plt
-from keras.models import load_model
 
 # Test code to learn more about the MNIST dataset, how it works etc.
 # ======================
