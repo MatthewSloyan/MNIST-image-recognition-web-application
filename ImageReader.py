@@ -112,9 +112,14 @@ test_lbl =  np.array(list(test_lbl[ 8:])).astype(np.uint8)
 print("Sum of correct results:", (encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum())
 
 # Predict image using model
-# Last test returned a 5 which is correct.
-print("Test image:", model.predict(test_img[15:16]))
+# Last test returned a 6 which is correct.
+print("Test image:", model.predict(test_img[11:12]))
 
-# Display correct image - 5
-plt.imshow(test_img[15].reshape(28, 28), cmap='gray')
+# From testing the model.predict it would return an array of possibilities. The highest value would be the right answer.
+# To get the largest value I looked up a numpy methods and found argmax() to achieve this.
+# https://kite.com/python/examples/5750/numpy-find-the-index-of-the-largest-element-of-an-array
+print("Results:", model.predict(test_img[11:12]).argmax())
+
+# Display correct image - 6
+plt.imshow(test_img[11].reshape(28, 28), cmap='gray')
 plt.show()
