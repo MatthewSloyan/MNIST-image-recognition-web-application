@@ -13,7 +13,7 @@
   <body>
     <h1>Hello, world! Thanks</h1>
 
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="28" height="28" style="border:1px solid #000000;"></canvas>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -22,11 +22,47 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script>
+      // Get an instance of the canvas
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
 
-      ctx.fillStyle = 'blue';
-      ctx.fillRect(10, 10, 28, 28);
+      // Code adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
+
+      // Initialize the mouse position to 0.
+      var mouse = {x: 0, y: 0};
+      
+      // Listener which is called when mouse movement is detected.
+      canvas.addEventListener('mousemove', function(e) {
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+      }, false);
+
+      // Set up drawing parameters
+      ctx.lineWidth = 1.5;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000000';
+      
+      // Listener which is called when mouse button is held down.
+      canvas.addEventListener('mousedown', function(e) {
+          ctx.beginPath();
+          ctx.moveTo(mouse.x, mouse.y);
+      
+          // Call mouse movement listener which will draw a line between each new mouse position.
+          canvas.addEventListener('mousemove', onPaint, false);
+      }, false);
+      
+      // Listener which is called when mouse button is released.
+      // Stops drawing by passing false to mousemove.
+      canvas.addEventListener('mouseup', function() {
+          canvas.removeEventListener('mousemove', onPaint, false);
+      }, false);
+      
+      // Function to draw line from previous mouse position to new position.
+      var onPaint = function() {
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+      };
     </script>
   </body>
 </html>
