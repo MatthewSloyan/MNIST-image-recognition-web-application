@@ -5,6 +5,7 @@
 import numpy as np
 import tensorflow as tf
 import random as rn
+from keras import backend as K
 
 # The below is necessary for starting Numpy and core Python generated random numbers in a well-defined initial state.
 np.random.seed(42)
@@ -14,8 +15,6 @@ rn.seed(12345)
 # Multiple threads are a potential source of non-reproducible results.
 # For further details, see: https://stackoverflow.com/questions/42022950/
 session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
-
-from keras import backend as K
 
 # The below tf.set_random_seed() will make random number generation
 # in the TensorFlow backend have a well-defined initial state.
@@ -51,8 +50,6 @@ with gzip.open('../MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
 
 # Set up a neural network model, building it layer by layer sequentially.
 model = kr.models.Sequential()
-
-# 6-layer NN 784-2500-2000-1500-1000-500-10 (on GPU) [elastic distortions]
 
 # Add a hidden layer with 1000 neurons and an input layer with 784 inputs.
 # 784 is the number of bytes per image (28 x 28)
