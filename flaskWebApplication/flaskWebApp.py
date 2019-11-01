@@ -49,9 +49,18 @@ def predictImage():
     test_imgs = ~np.array(list(img[:])).reshape(4, 784).astype(np.uint8) / 255.0
     #print(test_imgs[0:1])
 
+    # Prediction always returns 5 for some reason, need to fix.
     print("\nResults:", model.predict(test_imgs[0:1]))
     print("\nResults:", model.predict(test_imgs[1:2]))
     print("\nResults:", model.predict(test_imgs[2:3]))
     print("\nResults:", model.predict(test_imgs[3:4]))
 
     return str(model.predict(test_imgs[0:1]).argmax())
+
+# I encountered the error below when trying to call model.predict()
+# "Tensor Tensor("dense_3/Softmax:0", shape=(?, 10), dtype=float32) is not an element of this graph."
+# From research it seems to be a common problem and one fix I found is to run the script through the main
+# setting the the threaded attribute to false.
+# https://github.com/jrosebr1/simple-keras-rest-api/issues/5
+if __name__ == "__main__":
+    app.run(debug = False, threaded = False)
