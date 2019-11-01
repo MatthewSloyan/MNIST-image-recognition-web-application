@@ -75,20 +75,24 @@
         // which will allow me to send the image to the flask server using AJAX
         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
         var dataURL = canvas.toDataURL();
+        var obj = { 'data': dataURL};
 
         // console.log(dataURL); Test printing to console
 
         // I wanted to create an asynchronous request to the server and from research I found that using 
         // an xhttp AJAX request would work well. This will send the image and return the result when ready.
         // Code adapted from: https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
+
+        var xhttp = new XMLHttpRequest();
+
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             document.getElementById("result").innerHTML = this.responseText;
           }
         };
         xhttp.open("POST", "/predictImage", true);
-        xhttp.send();
-
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(obj));
       }
     </script>
   </body>
