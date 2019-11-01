@@ -1,5 +1,11 @@
 from flask import Flask, render_template, escape, request
 import base64
+import numpy as np
+import matplotlib.image as mplimg
+import matplotlib.pyplot as plt
+import keras as kr
+from keras.models import load_model # To save and load models
+model = load_model('../test_model.h5')
 
 app = Flask(__name__)
 
@@ -33,4 +39,19 @@ def predictImage():
     with open('testImage.png', 'wb+') as f:
         f.write(imgdata)
 
-    return render_template("home.html")
+    # Read RGB image 
+    img = mplimg.imread('testImage.png')
+
+    # Testing
+    #image = ~np.array(list(img[0:784])).reshape(28,28).astype(np.uint8)
+    #img = ~np.array(img).reshape(4, 784).astype(np.uint8) / 255.0
+
+    test_imgs = ~np.array(list(img[:])).reshape(4, 784).astype(np.uint8) / 255.0
+    #print(test_imgs[0:1])
+
+    print("\nResults:", model.predict(test_imgs[0:1]))
+    print("\nResults:", model.predict(test_imgs[1:2]))
+    print("\nResults:", model.predict(test_imgs[2:3]))
+    print("\nResults:", model.predict(test_imgs[3:4]))
+
+    return str(model.predict(test_imgs[0:1]).argmax())
