@@ -22,6 +22,15 @@ def predictImage():
     # so strip out from base64, onwards.
     base64_data = jsonData['data'].split('base64,')[1]
 
-    print(base64_data)
+    #print(base64_data)
+
+    # Using the base64 string decode and write to a png file in the root directory
+    # I will later create dynamic file names so that multiple users could predict images at once.
+    # wb+ creates the file from scratch
+    # There's no need to close the writer as it's automatically done when exiting with statement.
+    # Code adapted from: https://stackoverflow.com/questions/16214190/how-to-convert-base64-string-to-image
+    imgdata = base64.b64decode(base64_data)
+    with open('testImage.png', 'wb+') as f:
+        f.write(imgdata)
 
     return render_template("home.html")
