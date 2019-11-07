@@ -11,8 +11,6 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>Hello, world! Thanks</h1>
-
     <canvas id="canvas" width="28" height="28" style="border:1px solid #000000;"></canvas>
 
     <!-- To learn how to call an onclick event I looked on w3schools. -->
@@ -44,10 +42,10 @@
       }, false);
 
       // Set up drawing parameters
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
       ctx.lineCap = 'round';
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = '#ff0000';
       
       // Listener which is called when mouse button is held down.
       canvas.addEventListener('mousedown', function(e) {

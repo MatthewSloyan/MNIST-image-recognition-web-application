@@ -3,6 +3,7 @@ import base64
 import numpy as np
 import matplotlib.image as mplimg
 import matplotlib.pyplot as plt
+from PIL import Image
 import keras as kr
 from keras.models import load_model # To save and load models
 model = load_model('../test_model.h5')
@@ -40,22 +41,30 @@ def predictImage():
         f.write(imgdata)
 
     # Read RGB image 
-    img = mplimg.imread('testImage.png')
+    #img = mplimg.imread('testImage.png', mode='L')
+
+    img = Image.open('testImage.png').convert('L')
+    print(img)
+    #img = misc.imread('testImage.png', mode="L")
+
+    # read parsed image back in 8-bit, black and white mode (L)
+    #img = imread('testImage.png', mode='L')
+    #img = np.invert(img)
+
+    # reshape image data for use in neural network
+    img = ~np.array(img).reshape(1, 784).astype(np.uint8) / 255.0
 
     # Testing
     #image = ~np.array(list(img[0:784])).reshape(28,28).astype(np.uint8)
     #img = ~np.array(img).reshape(4, 784).astype(np.uint8) / 255.0
 
-    test_imgs = ~np.array(list(img[:])).reshape(4, 784).astype(np.uint8) / 255.0
-    #print(test_imgs[0:1])
+    #test_imgs = ~np.array(img).reshape(1, 784).astype(np.uint8) / 255.0
+    print(img)
 
     # Prediction always returns 5 for some reason, need to fix.
-    print("\nResults:", model.predict(test_imgs[0:1]))
-    print("\nResults:", model.predict(test_imgs[1:2]))
-    print("\nResults:", model.predict(test_imgs[2:3]))
-    print("\nResults:", model.predict(test_imgs[3:4]))
+    print("\nResults:", model.predict(img))
 
-    return str(model.predict(test_imgs[0:1]).argmax())
+    return str(model.predict(img).argmax())
 
 # I encountered the error below when trying to call model.predict()
 # "Tensor Tensor("dense_3/Softmax:0", shape=(?, 10), dtype=float32) is not an element of this graph."
