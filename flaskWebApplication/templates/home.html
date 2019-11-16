@@ -8,10 +8,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>MNIST Image prediction!</title>
   </head>
   <body>
-    <canvas id="canvas" width="28" height="28" style="border:1px solid #000000;"></canvas>
+    <canvas id="canvas" width="280" height="280" style="border:3px solid #000000;"></canvas>
+    <br>
 
     <!-- To learn how to call an onclick event I looked on w3schools. -->
     <!-- https://www.w3schools.com/jsref/event_onclick.asp -->
@@ -19,7 +20,9 @@
 
     <button onclick="clearCanvas()">Clear</button>
 
-    <h4 id="result"></h4>
+    <br><br>
+    <h3 style="display:inline-block">Predicted Results:</h3>
+    <h3 id="result" style="display:inline-block"></h3>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -76,7 +79,7 @@
         // which will allow me to send the image to the flask server using AJAX
         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
         var dataURL = canvas.toDataURL();
-        var obj = { 'data': dataURL};
+        var obj = {'data': dataURL};
 
         // console.log(dataURL); Test printing to console
 
@@ -100,6 +103,7 @@
         // To clear the canvas I research and found a simple way to do it using the clearRect function.
         // Code adapted from: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById("result").innerHTML = "";
       }
     </script>
   </body>

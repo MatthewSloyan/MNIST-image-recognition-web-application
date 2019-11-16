@@ -42,7 +42,11 @@ def predictImage():
     # Using the Pillow (PIL) library which is a Python Imaging Library by Fredrik Lundh and Contributors.
     # https://pillow.readthedocs.io/en/stable/
     img = Image.open(BytesIO(imgdata)).convert('L')
-    #img.save("image.png")
+    img.save("image.png")
+
+    # Resize image to be 28 x 28 pixels using Pillow's
+    # Code adapted from: https://stackoverflow.com/questions/273946/how-do-i-resize-an-image-using-pil-and-maintain-its-aspect-ratio
+    img = img.resize((28, 28), Image.ANTIALIAS)
 
     # The problem I initally had was that I was using a black pen in the HTML so when convert the 
     # image to greyscale there would be no distinct values (E.g All 0's) To solve this I have used a strong red pen which solves the problem.
@@ -53,7 +57,7 @@ def predictImage():
     # Code adapted from https://www.geeksforgeeks.org/python-pil-image-point-method/
     threshold = 0  
     img = img.point(lambda p: p > threshold and 255) 
-    #img.save("image_Test.png")
+    img.save("image_Test.png")
     
     # reshape image data for use in neural network
     # Creates a two dimensional array of the 784 bytes in the image (28 x 28)
