@@ -17,6 +17,8 @@
     <!-- https://www.w3schools.com/jsref/event_onclick.asp -->
     <button onclick="predictImage()">Predict</button>
 
+    <button onclick="clearCanvas()">Clear</button>
+
     <h4 id="result"></h4>
 
     <!-- Optional JavaScript -->
@@ -30,7 +32,7 @@
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
 
-      // Code adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
+      // Code mouse drawing is adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
 
       // Initialize the mouse position to 0.
       var mouse = {x: 0, y: 0};
@@ -42,7 +44,7 @@
       }, false);
 
       // Set up drawing parameters
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1;
       ctx.lineJoin = 'round';
       ctx.lineCap = 'round';
       ctx.strokeStyle = '#ff0000';
@@ -68,6 +70,7 @@
         ctx.stroke();
       };
 
+      // Called when Predict button is clicked.
       function predictImage() {
         // To convert the canvas to an image I found a built in method which converts it to base64 binary, 
         // which will allow me to send the image to the flask server using AJAX
@@ -91,6 +94,12 @@
         xhttp.open("POST", "/predictImage", true);
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(JSON.stringify(obj));
+      }
+
+      function clearCanvas() {
+        // To clear the canvas I research and found a simple way to do it using the clearRect function.
+        // Code adapted from: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     </script>
   </body>

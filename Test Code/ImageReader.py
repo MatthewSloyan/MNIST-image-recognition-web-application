@@ -57,7 +57,7 @@ model = kr.models.Sequential()
 # linear activation function = Takes the inputs, multiplied by the weights for each neuron, and creates an output proportional to the input. 
 # relu activation function = (Rectified Linear Unit) All positive values stay the same and all negative values are changed to zero.
 model.add(kr.layers.Dense(units=600, activation='linear', input_dim=784))
-model.add(kr.layers.Dense(units=400, activation='relu')) 
+model.add(kr.layers.Dense(units=400, activation='relu'))
 
 # Add a 10 neuron output layer, each output will represent a possible label from 0-9.
 # softmax - normalizes all outputs so must add up to 1. So the largest weighted result will be the most probable number.
