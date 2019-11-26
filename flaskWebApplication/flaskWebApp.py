@@ -42,7 +42,7 @@ def predictImage():
     # Using the Pillow (PIL) library which is a Python Imaging Library by Fredrik Lundh and Contributors.
     # https://pillow.readthedocs.io/en/stable/
     img = Image.open(BytesIO(imgdata)).convert('L')
-    img.save("image.png")
+    # img.save("image.png")
 
     # Resize image to be 28 x 28 pixels using Pillow's
     # Code adapted from: https://stackoverflow.com/questions/273946/how-do-i-resize-an-image-using-pil-and-maintain-its-aspect-ratio
@@ -99,11 +99,19 @@ def predictImage():
 
     #Print Contents test
     # Developed from orginal 
-    for i in imgGray[:]:
+    counter = 0
+
+    #Print Contents test
+    for i in imgGray[0]:
         if i > 0:
            print(".",end="")
         else:
            print("0",end="")
+        counter +=1
+
+        if counter == 28:
+            print("\n")
+            counter = 0
 
     # Testing - print array of predicted result. £.g [[1.9111006e-02 1.0649475e-02 1.9441145e-02...]]
     # The highest value is the predicted result.

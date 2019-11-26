@@ -20,6 +20,16 @@
 
     <button onclick="clearCanvas()">Clear</button>
 
+    <br>
+
+    <button onclick="eraseDraw()">Erase</button>
+
+    <button onclick="eraseDraw()">Pen</button>
+
+    <h3 id="mode">Draw Mode</h3>
+
+    Size: <input type="range" id='size' min="1" max="6" value = '3' step="1" onchange='setSize();'>
+
     <br><br>
     <!-- To display two tags inline I researched and found display:inline-block -->
     <!-- Code adapted from: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html -->
@@ -49,7 +59,7 @@
       }, false);
 
       // Set up drawing parameters
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
       ctx.lineCap = 'round';
       ctx.strokeStyle = '#ff0000';
@@ -106,6 +116,21 @@
         // Code adapted from: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         document.getElementById("result").innerHTML = "";
+      }
+
+      function eraseDraw() {
+        if (ctx.strokeStyle == '#ff0000'){
+          ctx.strokeStyle = '#ffffff';
+          document.getElementById("mode").innerHTML = "Erase Mode";
+        }
+        else {
+          ctx.strokeStyle = '#ff0000';
+          document.getElementById("mode").innerHTML = "Draw Mode";
+        }
+      }
+
+      function setSize() {
+        ctx.lineWidth = document.getElementById("size").value;;
       }
     </script>
   </body>
