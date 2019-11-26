@@ -1,5 +1,6 @@
 from flask import Flask, render_template, escape, request
 import base64
+import math
 import numpy as np
 from PIL import Image
 import PIL.ImageOps  
@@ -14,8 +15,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    name = request.args.get("name", "World")
-    return f'Hello, {escape(name)}!'
+    return render_template("home.html")
 
 @app.route("/home")
 def homePage():
@@ -56,26 +56,54 @@ def predictImage():
     # and found the point method which uses a lambda to increase the threshold if not black, so grey becomes solid white.
     # Code adapted from https://www.geeksforgeeks.org/python-pil-image-point-method/
     threshold = 0  
-    img = img.point(lambda p: p > threshold and 255) 
-    img.save("image_Test.png")
-    
+    img = img.point(lambda p: p > threshold and 255)
+    #img.save("image_Test.png")
+
+    # img = cv2.imread("image_Test.png")
+
+    # while np.sum(img[0]) == 0:
+    #     img = img[1:]
+
+    # while np.sum(img[:,0]) == 0:
+    #     img = np.delete(img,0,1)
+
+    # while np.sum(img[-1]) == 0:
+    #     img = img[:-1]
+
+    # while np.sum(img[:,-1]) == 0:
+    #     img = np.delete(img,-1,1)
+
+    # rows,cols = img.shape
+
+    # if rows > cols:
+    #     factor = 20.0/rows
+    #     rows = 20
+    #     cols = int(round(cols*factor))
+    #     img = img.resize((cols,rows), Image.ANTIALIAS)
+    # else:
+    #     factor = 20.0/cols
+    #     cols = 20
+    #     rows = int(round(rows*factor))
+    #     img = img.resize((cols,rows), Image.ANTIALIAS)
+
+    # colsPadding = (int(math.ceil((28-cols)/2.0)),int(math.floor((28-cols)/2.0)))
+    # rowsPadding = (int(math.ceil((28-rows)/2.0)),int(math.floor((28-rows)/2.0)))
+    # img = np.lib.pad(img,(rowsPadding,colsPadding),'constant')
+
+    # cv2.imwrite("image_Test2.png", img)
+    #img.save("image_Test2.png")
+        
     # reshape image data for use in neural network
     # Creates a two dimensional array of the 784 bytes in the image (28 x 28)
     imgGray = np.ndarray.flatten(np.array(img)).reshape(1, 784).astype("float32") / 255
 
-    counter = 0
-
     #Print Contents test
-    for i in imgGray[0]:
+    # Developed from orginal 
+    for i in imgGray[:]:
         if i > 0:
            print(".",end="")
         else:
            print("0",end="")
-        counter +=1
-
-        if counter == 28:
-            print("\n")
-            counter = 0
 
     # Testing - print array of predicted result. £.g [[1.9111006e-02 1.0649475e-02 1.9441145e-02...]]
     # The highest value is the predicted result.
