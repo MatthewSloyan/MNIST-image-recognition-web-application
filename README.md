@@ -54,7 +54,7 @@ Each week I watched the various videos posted on Moodle and read into more about
 To help with the project I researched more about the MNIST dataset with help from the sources on Moodle. From this I found out more about how it's compressed and the possible ways to read it. With help from the video on Moodle I began coding a basic C program that reads in the bytes for the uncompressed training dataset of images. The results correlated with the sample data on the MNIST website, so it was a success. I then went on to code a similar program in Python from what I had learn which allowed me to display the results visually using matplotlib. As it's been read in correctly, I can move onto training the dataset using Keras.
 
 #### Week of 13-10-19 to 20-10-19
-I wanted to learn more about how Keras works in the background and how neural networks work in general. An interesting link I found was in relation to the theory of neural networks and machine learning based off the MNIST dataset, it doesn't go into any details of how to code a solution but the insights and explanations where very useful for developing my own model. [Neural networks and deep learning][1] To learn more about Keras I also looked up some of the possible activation functions (linear, relu and softmax), loss functions (categorical_crossentropy) and optimizers (adam) that could be used. An outline of how each of these works and why I chose them can be found in the Jupyter Notebook in this repository. 
+I wanted to learn more about how Keras works in the background and how neural networks work in general. An interesting link I found was in relation to the theory of neural networks and machine learning based off the MNIST dataset, it doesn't go into any details of how to code a solution but the insights and explanations where very useful for developing my own model. [(Neural networks and deep learning).](http://neuralnetworksanddeeplearning.com/chap1.html) To learn more about Keras I also looked up some of the possible activation functions (linear, relu and softmax), loss functions (categorical_crossentropy) and optimizers (adam) that could be used. An outline of how each of these works and why I chose them can be found in the Jupyter Notebook in this repository. 
 
 With this knowledge I began to create a model using Keras, I used help from the official documentation and the videos on Moodle which gave me a good basis, but my own research really solidified how it all works. I set up the input layer with 784 inputs which is each pixel (28 x 28). I then set up the hidden layers and finally an output layer of 10 neurons which will represents the numbers 0-9. Using this model, I reshaped the training data into the a two-dimensional numpy array consisting of 784 indexes. With this the data could be fed in the neural network and trained. From basic tests the results were promising accuracy of 94% but I will try and improve this with time.
 
@@ -70,14 +70,31 @@ Once I set up the canvas, I needed a way to send the drawing to the Flask server
 As I was at a good state and ahead of the project plan, I took a break on this to focus on some of the other projects.
 
 #### Week of 10-11-19 to 17-11-19
+I wanted to fix the fact that the predicting would always be 5 no matter what which isn't ideal. From testing I found that when converting to grayscale the digit would be very faint which I figured was the first problem. To fix this I changed the pen colour to red which is a stronger RGB value so when converting to grayscale (Single channel) it is not lost. This increased the prediction success rate but it still wasn't perfect unfortunately.
 
 #### Week of 17-11-19 to 24-11-19
+I went back to how the model was being trained to find a solution, from this I noticed that the model contained digits with solid black digits whereas my prediction was using grey images. From my experience as I graphic designer I knew that you could make colours solid black or white by increasing the threshold of the image. I researched online how to do this which converted all the pixels above 127 to solid black. [(PIL Threshold)](https://www.geeksforgeeks.org/python-pil-image-point-method/). With this in place the prediction worked perfectly and could predict all 9 numbers if drawn correctly. 
 
+The next step was to allow the canvas to be larger as it was currently 28 x 28 pixels which is quite small. To achieve this I looked up the PIL documentation and found the resize method. [(PIL Resize)](https://pillow.readthedocs.io/en/3.1.x/reference/Image.html). From testing all the resampling methods I found ANTIALIAS to work best which smoothes the edges of images. Some of the other methods can be found below.
+
+* NEAREST - use nearest neighbour.
+* BILINEAR - linear interpolation.
+* BICUBIC - cubic spline interpolation
+* LANCZOS - a high-quality downsampling filter
+
+From further testing I wanted to increase the accuracy of the neural network, I first found that not inverting the image produced a higher accuracy when training and increased the speed of each epoch by 1 second. With this I updated the flask web application to handle this and modified the code to just use PIL while doing all the processing in memory. This also alleviated the need to save the image locally and reopened it like before during testing, which increased the response time.
 
 #### Final Week
-As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application.
+As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application. 
+
+I began with moving the javascript and css code to separate static files which cleaned up the html file. I also added styling to the buttons, sliders etc which drasically improved the user experience.
 
 ## References 
+**Project Research**
 * http://neuralnetworksanddeeplearning.com/chap1.html
 
-[1]: http://neuralnetworksanddeeplearning.com/chap1.html
+**Training the Model**
+
+**Flask Web App**
+* Threshold: https://www.geeksforgeeks.org/python-pil-image-point-method/
+* Resize: https://pillow.readthedocs.io/en/3.1.x/reference/Image.html
