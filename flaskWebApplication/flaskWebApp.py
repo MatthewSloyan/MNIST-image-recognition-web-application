@@ -17,10 +17,6 @@ app = Flask(__name__)
 def hello():
     return render_template("home.html")
 
-@app.route("/home")
-def homePage():
-    return render_template("home.html")
-
 @app.route("/predictImage", methods=['POST'])
 def predictImage():
     # Get the base64 image from the request as JSON
@@ -42,7 +38,6 @@ def predictImage():
     # Using the Pillow (PIL) library which is a Python Imaging Library by Fredrik Lundh and Contributors.
     # https://pillow.readthedocs.io/en/stable/
     img = Image.open(BytesIO(imgdata)).convert('L')
-    # img.save("image.png")
 
     # Resize image to be 28 x 28 pixels using Pillow's
     # Code adapted from: https://stackoverflow.com/questions/273946/how-do-i-resize-an-image-using-pil-and-maintain-its-aspect-ratio
@@ -57,61 +52,27 @@ def predictImage():
     # Code adapted from https://www.geeksforgeeks.org/python-pil-image-point-method/
     threshold = 0  
     img = img.point(lambda p: p > threshold and 255)
-    #img.save("image_Test.png")
-
-    # img = cv2.imread("image_Test.png")
-
-    # while np.sum(img[0]) == 0:
-    #     img = img[1:]
-
-    # while np.sum(img[:,0]) == 0:
-    #     img = np.delete(img,0,1)
-
-    # while np.sum(img[-1]) == 0:
-    #     img = img[:-1]
-
-    # while np.sum(img[:,-1]) == 0:
-    #     img = np.delete(img,-1,1)
-
-    # rows,cols = img.shape
-
-    # if rows > cols:
-    #     factor = 20.0/rows
-    #     rows = 20
-    #     cols = int(round(cols*factor))
-    #     img = img.resize((cols,rows), Image.ANTIALIAS)
-    # else:
-    #     factor = 20.0/cols
-    #     cols = 20
-    #     rows = int(round(rows*factor))
-    #     img = img.resize((cols,rows), Image.ANTIALIAS)
-
-    # colsPadding = (int(math.ceil((28-cols)/2.0)),int(math.floor((28-cols)/2.0)))
-    # rowsPadding = (int(math.ceil((28-rows)/2.0)),int(math.floor((28-rows)/2.0)))
-    # img = np.lib.pad(img,(rowsPadding,colsPadding),'constant')
-
-    # cv2.imwrite("image_Test2.png", img)
-    #img.save("image_Test2.png")
         
     # reshape image data for use in neural network
     # Creates a two dimensional array of the 784 bytes in the image (28 x 28)
-    imgGray = np.ndarray.flatten(np.array(img)).reshape(1, 784).astype("float32") / 255
+    imgGray = np.array(img).reshape(1, 784).astype(np.uint8) / 255
 
-    #Print Contents test
-    # Developed from orginal 
-    counter = 0
+    # Print Contents of image to console (test)
+    # Developed from orginal C tests when starting the project. 
+    # Prints out a 0 if black, and a . if white.
+    count = 0
 
-    #Print Contents test
     for i in imgGray[0]:
         if i > 0:
-           print(".",end="")
+            # Adds space to end. More information here: https://www.geeksforgeeks.org/gfact-50-python-end-parameter-in-print/
+            print(".",end="")
         else:
-           print("0",end="")
-        counter +=1
+            print("0",end="")
+        count +=1
 
-        if counter == 28:
+        if count == 28:
             print("\n")
-            counter = 0
+            count = 0
 
     # Testing - print array of predicted result. £.g [[1.9111006e-02 1.0649475e-02 1.9441145e-02...]]
     # The highest value is the predicted result.

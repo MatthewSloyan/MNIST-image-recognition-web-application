@@ -8,130 +8,45 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <!-- Page Styling -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+
     <title>MNIST Image prediction!</title>
   </head>
   <body>
-    <canvas id="canvas" width="280" height="280" style="border:3px solid #000000;"></canvas>
-    <br>
+    <div class="container-fluid my-auto">
+        <canvas id="canvas" width="280" height="280" style="border:3px solid #000000;"></canvas>
+        <br>
+    
+        <!-- BUTTONS -->
+        <!-- To learn how to call an onclick event I looked on w3schools. -->
+        <!-- https://www.w3schools.com/jsref/event_onclick.asp -->
+        <button onclick="eraseDraw()" class="button_style">Change Mode</button>
+        <button onclick="clearCanvas()" class="button_style">Clear</button>
 
-    <!-- To learn how to call an onclick event I looked on w3schools. -->
-    <!-- https://www.w3schools.com/jsref/event_onclick.asp -->
-    <button onclick="predictImage()">Predict</button>
+        &nbsp;
 
-    <button onclick="clearCanvas()">Clear</button>
+        <button onclick="predictImage()" class="button_style">Predict</button>
+    
+        <h4 id="mode">Mode: Draw</h4>
 
-    <br>
-
-    <button onclick="eraseDraw()">Erase</button>
-
-    <button onclick="eraseDraw()">Pen</button>
-
-    <h3 id="mode">Draw Mode</h3>
-
-    Size: <input type="range" id='size' min="1" max="6" value = '3' step="1" onchange='setSize();'>
-
-    <br><br>
-    <!-- To display two tags inline I researched and found display:inline-block -->
-    <!-- Code adapted from: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html -->
-    <h3 style="display:inline-block">Predicted Results:</h3>
-    <h3 id="result" style="display:inline-block"></h3>
-
+        <!-- DISPLAY -->
+        <!-- Code adapted from: https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+        Size: <input type="range" id='size' min="1" max="6" value = '3' step="1" onchange='setSize();'>
+    
+        <br><br>
+        <!-- To display two tags inline I researched and found display:inline-block -->
+        <!-- Code adapted from: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html -->
+        <h3 class="prediction">Predicted Results:</h3>
+        <h3 id="result" class="prediction"></h3>
+    </div>
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <script>
-      // Get an instance of the canvas
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
-
-      // Code mouse drawing is adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
-
-      // Initialize the mouse position to 0.
-      var mouse = {x: 0, y: 0};
-      
-      // Listener which is called when mouse movement is detected.
-      canvas.addEventListener('mousemove', function(e) {
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
-      }, false);
-
-      // Set up drawing parameters
-      ctx.lineWidth = 2;
-      ctx.lineJoin = 'round';
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#ff0000';
-      
-      // Listener which is called when mouse button is held down.
-      canvas.addEventListener('mousedown', function(e) {
-        ctx.beginPath();
-        ctx.moveTo(mouse.x, mouse.y);
-      
-        // Call mouse movement listener which will draw a line between each new mouse position.
-        canvas.addEventListener('mousemove', onPaint, false);
-      }, false);
-      
-      // Listener which is called when mouse button is released.
-      // Stops drawing by passing false to mousemove.
-      canvas.addEventListener('mouseup', function() {
-        canvas.removeEventListener('mousemove', onPaint, false);
-      }, false);
-      
-      // Function to draw line from previous mouse position to new position.
-      var onPaint = function() {
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.stroke();
-      };
-
-      // Called when Predict button is clicked.
-      function predictImage() {
-        // To convert the canvas to an image I found a built in method which converts it to base64 binary, 
-        // which will allow me to send the image to the flask server using AJAX
-        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
-        var dataURL = canvas.toDataURL();
-        var obj = {'data': dataURL};
-
-        // console.log(dataURL); Test printing to console
-
-        // I wanted to create an asynchronous request to the server and from research I found that using 
-        // an xhttp AJAX request would work well. This will send the image and return the result when ready.
-        // Code adapted from: https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
-
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("result").innerHTML = this.responseText;
-          }
-        };
-        xhttp.open("POST", "/predictImage", true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send(JSON.stringify(obj));
-      }
-
-      function clearCanvas() {
-        // To clear the canvas I research and found a simple way to do it using the clearRect function.
-        // Code adapted from: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        document.getElementById("result").innerHTML = "";
-      }
-
-      function eraseDraw() {
-        if (ctx.strokeStyle == '#ff0000'){
-          ctx.strokeStyle = '#ffffff';
-          document.getElementById("mode").innerHTML = "Erase Mode";
-        }
-        else {
-          ctx.strokeStyle = '#ff0000';
-          document.getElementById("mode").innerHTML = "Draw Mode";
-        }
-      }
-
-      function setSize() {
-        ctx.lineWidth = document.getElementById("size").value;;
-      }
-    </script>
+    <script src="{{ url_for('static', filename='javascript/canvas.js') }}"></script>
   </body>
 </html>
