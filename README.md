@@ -12,14 +12,30 @@ Student ID: G00348036
 Coded and tested on a Linux Ubuntu 18.04 LTS virtual machine using VMware.
 
 # How to run
+**Download**
 * First, clone the repository using the following command `git clone https://github.com/MatthewSloyan/4th-Year-MNIST-Image-Recognition-Web-Application.git` 
 * Traverse using the command line to the folder you have cloned using the cd command.
-* From the command line run the following command. `will be updated`
+
+**Jupyter Notebook**
+cd into "Jupyter Notebook" folder and run `jupyter lab` or `jupyter notebook`. This will load the notebook in your default web browser.
+
+**Flask web application**
+cd into "flaskWebApplication" folder and run `python flaskWebApp.py` or `jupyter notebook`. This will run the web app in development mode, and will be available here `http://127.0.0.1:5000/`.
 
 # User Guide
 Below you’ll find a basic guide to the user interface, in the “How it works” section is a description of how this works in the code behind.
 
-Will be updated.
+* Go to `http://127.0.0.1:5000/` when application is running (More information on how to do this in the "How to run" section).
+* Using the mouse or touch screen begin to draw a digit between 0-9.
+* To erase your work, select the "Change Mode" button to swap to erase mode, and again to swap back to draw mode.
+* To change pen size, move the slider until at a suitable size.
+* When you are happy with your digit, select the "Predict" button and wait for predicition.
+
+# How it works
+### Training the model
+More information on how the model is trained can be found in the Jupyter Notebook. (More information on how to do this in the "How to run" section).
+
+#### Flask Web Application
 
 # Project Plan
 * Week 1 - Initial research and setup of project.
@@ -49,6 +65,17 @@ With the model trained and tested, I began to move the code to a Jupyter Noteboo
 The next step was to pull it all together and create the Flask web application for the project. To begin I researched how Flask works and what it does in the background. I then created a basic Flask web application with a basic home page. On this page is a small 28 x 28 canvas which the user can draw a little number. I am currently using this for testing purposes and will scale the image accordingly once I get it working correctly. 
 
 Once I set up the canvas, I needed a way to send the drawing to the Flask server. To achieve this, I felt an asynchronous xhttp request using AJAX would work best as it would return the result and update the webpage when ready. I tried sending the data but I couldn't access it on the server, so I decided to parse it to a base64 binary string, wrap it in JSON, send this JSON to the server and then decode this string on the server into a local file. The local file is then converted to a single channel image (Grayscale) or else it would contain 4 arrays (RGBA). This wouldn't work with my model. With it converted it is passed into the predict method and the index of the largest result is returned which is the predicted number. It currently only ever displays 5 so some testing and fixing will be required.
+
+#### Week of 3-11-19 to 10-11-19
+As I was at a good state and ahead of the project plan, I took a break on this to focus on some of the other projects.
+
+#### Week of 10-11-19 to 17-11-19
+
+#### Week of 17-11-19 to 24-11-19
+
+
+#### Final Week
+As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application.
 
 ## References 
 * http://neuralnetworksanddeeplearning.com/chap1.html
