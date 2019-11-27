@@ -64,7 +64,7 @@ With the model trained and tested, I began to move the code to a Jupyter Noteboo
 #### Week of 27-10-19 to 3-11-19
 The next step was to pull it all together and create the Flask web application for the project. To begin I researched how Flask works and what it does in the background. I then created a basic Flask web application with a basic home page. On this page is a small 28 x 28 canvas which the user can draw a little number. I am currently using this for testing purposes and will scale the image accordingly once I get it working correctly. 
 
-Once I set up the canvas, I needed a way to send the drawing to the Flask server. To achieve this, I felt an asynchronous xhttp request using AJAX would work best as it would return the result and update the webpage when ready. I tried sending the data but I couldn't access it on the server, so I decided to parse it to a base64 binary string, wrap it in JSON, send this JSON to the server and then decode this string on the server into a local file. The local file is then converted to a single channel image (Grayscale) or else it would contain 4 arrays (RGBA). This wouldn't work with my model. With it converted it is passed into the predict method and the index of the largest result is returned which is the predicted number. It currently only ever displays 5 so some testing and fixing will be required.
+Once I set up the canvas, I needed a way to send the drawing to the Flask server. To achieve this, I felt an asynchronous xhttp request using AJAX would work best as it would return the result and update the webpage when ready. [(xhttp)](https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp) I tried sending the data but I couldn't access it on the server, so I decided to parse it to a base64 binary string, wrap it in JSON, send this JSON to the server and then decode this string on the server into a local file. [(Base64).](https://stackoverflow.com/questions/16214190/how-to-convert-base64-string-to-image) The local file is then converted to a single channel image (Grayscale) or else it would contain 4 arrays (RGBA). This wouldn't work with my model. With it converted it is passed into the predict method and the index of the largest result is returned which is the predicted number. It currently only ever displays 5 so some testing and fixing will be required.
 
 #### Week of 3-11-19 to 10-11-19
 As I was at a good state and ahead of the project plan, I took a break on this to focus on some of the other projects.
@@ -75,7 +75,7 @@ I wanted to fix the fact that the predicting would always be 5 no matter what wh
 #### Week of 17-11-19 to 24-11-19
 I went back to how the model was being trained to find a solution, from this I noticed that the model contained digits with solid black digits whereas my prediction was using grey images. From my experience as I graphic designer I knew that you could make colours solid black or white by increasing the threshold of the image. I researched online how to do this which converted all the pixels above 127 to solid black. [(PIL Threshold)](https://www.geeksforgeeks.org/python-pil-image-point-method/). With this in place the prediction worked perfectly and could predict all 9 numbers if drawn correctly. 
 
-The next step was to allow the canvas to be larger as it was currently 28 x 28 pixels which is quite small. To achieve this I looked up the PIL documentation and found the resize method. [(PIL Resize)](https://pillow.readthedocs.io/en/3.1.x/reference/Image.html). From testing all the resampling methods I found ANTIALIAS to work best which smoothes the edges of images. Some of the other methods can be found below.
+The next step was to allow the canvas to be larger as it was currently 28 x 28 pixels which is quite small. To achieve this, I looked up the PIL documentation and found the resize method. [(PIL Resize)](https://pillow.readthedocs.io/en/3.1.x/reference/Image.html). From testing all the resampling methods, I found ANTIALIAS to work best which smoothens the edges of images. Some of the other methods can be found below.
 
 * NEAREST - use nearest neighbour.
 * BILINEAR - linear interpolation.
@@ -90,11 +90,46 @@ As I have the Jupyter Notebook, and Flask Application running and working correc
 I began with moving the javascript and css code to separate static files which cleaned up the html file. I also added styling to the buttons, sliders etc which drasically improved the user experience.
 
 ## References 
+All references are also in code in respective areas.
+
 **Project Research**
-* http://neuralnetworksanddeeplearning.com/chap1.html
+* Neural networks & Deep learning: http://neuralnetworksanddeeplearning.com/chap1.html
+* MNIST: http://yann.lecun.com/exdb/mnist/
+* Big/Small Endian: https://en.wikipedia.org/wiki/Endianness
 
 **Training the Model**
+* Seeding: https://keras.io/getting-started/faq/#how-can-i-obtain-reproducible-results-using-keras-during-development
+https://stackoverflow.com/questions/42022950/
+https://www.tensorflow.org/api_docs/python/tf/set_random_seed
+* gzip: https://docs.python.org/3/library/gzip.html
+* Big/small Endian: https://stackoverflow.com/questions/51220161/how-to-convert-from-bytes-to-int
+* Activation Functions (Softmax etc): https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
+* Loss Functions: http://keras.io/losses/
+* Optimizers: https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/
+* Label Preprocessing: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelBinarizer.html
+* Save Model: https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
+* Graph Display: https://towardsdatascience.com/a-simple-2d-cnn-for-mnist-digit-recognition-a998dbc1e79a
 
 **Flask Web App**
-* Threshold: https://www.geeksforgeeks.org/python-pil-image-point-method/
-* Resize: https://pillow.readthedocs.io/en/3.1.x/reference/Image.html
+Frontend:
+* Bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/
+* OnClick: https://www.w3schools.com/jsref/event_onclick.asp
+* Range Slider: https://www.w3schools.com/howto/howto_js_rangeslider.asp
+* Drawing: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
+* Canvas to base64: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+* xhttp: https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
+* Clear Canvas: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
+* Check if blank: https://stackoverflow.com/questions/17386707/how-to-check-if-a-canvas-is-blank
+* Styling: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html
+https://www.fabriziovanmarciano.com/button-styles/
+https://www.w3schools.com/howto/howto_js_rangeslider.asp
+
+Backend (Flask): 
+* Flask: https://www.palletsprojects.com/p/flask/
+* Threading issue: https://github.com/jrosebr1/simple-keras-rest-api/issues/5
+* PIL: https://pillow.readthedocs.io/en/stable/
+* Base64: https://www.w3schools.com/python/ref_string_split.asp
+https://stackoverflow.com/questions/16214190/how-to-convert-base64-string-to-image
+* Threshold using PIL: https://www.geeksforgeeks.org/python-pil-image-point-method/
+* Resize using PIL: https://pillow.readthedocs.io/en/3.1.x/reference/Image.html
+* Prediction value: https://kite.com/python/examples/5750/numpy-find-the-index-of-the-largest-element-of-an-array
