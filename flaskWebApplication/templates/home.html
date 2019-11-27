@@ -15,8 +15,17 @@
   </head>
   <body>
     <div class="container-fluid my-auto">
-        <canvas id="canvas" width="280" height="280" style="border:3px solid #000000;"></canvas>
-        <br>
+        <!-- Tutorial -->
+        <ul>
+          <p><b>Tutorial:</b></p>
+          <li>Using the mouse or touch screen begin to draw a digit between 0-9. </li>
+          <li>To erase your work, select the "Change Mode" button to swap to erase mode, and again to swap back to draw mode.</li>
+          <li>To change pen size, move the slider until at a suitable size.</li>
+          <li>When you are happy with your digit, select the "Predict" button and wait for predicition.</li>
+        </ul>
+
+        <!-- Canvas setup -->
+        <canvas id="canvas" width="280" height="280" style="border:3px solid #000000;"></canvas><br>
     
         <!-- BUTTONS -->
         <!-- To learn how to call an onclick event I looked on w3schools. -->
@@ -24,19 +33,20 @@
         <button onclick="eraseDraw()" class="button_style">Change Mode</button>
         <button onclick="clearCanvas()" class="button_style">Clear</button>
 
-        &nbsp;
-
-        <button onclick="predictImage()" class="button_style">Predict</button>
-    
+        <!-- &nbsp; -->
         <h4 id="mode">Mode: Draw</h4>
 
+        <br>
+
         <!-- DISPLAY -->
+        <p id="sizeText">Size: 3</p>
         <!-- Code adapted from: https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-        Size: <input type="range" id='size' min="1" max="6" value = '3' step="1" onchange='setSize();'>
+        <input type="range" class="slider" id='size' min="1" max="6" value = '3' step="1" onchange='setSize();'>
     
         <br><br>
         <!-- To display two tags inline I researched and found display:inline-block -->
         <!-- Code adapted from: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html -->
+        <button onclick="predictImage()" class="button_style prediction">Predict</button>
         <h3 class="prediction">Predicted Results:</h3>
         <h3 id="result" class="prediction"></h3>
     </div>
