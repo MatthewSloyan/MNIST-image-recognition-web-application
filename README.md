@@ -32,10 +32,24 @@ Below you’ll find a basic guide to the user interface, in the “How it works�
 * When you are happy with your digit, select the "Predict" button and wait for predicition.
 
 # How it works
-### Training the model
+#### Training the model
 More information on how the model is trained can be found in the Jupyter Notebook. (More information on how to do this in the "How to run" section).
 
 #### Flask Web Application
+The flask web application is built using a client server architecture, as seen in the diagram below that I've drawn.
+
+![Application Diagram](https://i.imgur.com/cucxmPm.jpg)
+
+When the server is running, if a user tries to connect on the correct ip and port then the HTML page from the template folder is returned to the user and displayed. The server also is listening for post requests under the url /predictImage. If it recieves a request the following steps will occur.
+
+* It will get the base64 string from the request and 
+* Convert base64 to image data in memory using PIL and convert to grayscale.
+* Resize the image to 28 x 28 pixels.
+* Increase the threshold to make the image solid black.
+* Reshape to image to array with 784 indexs (28 x 28).
+* Pass to model and return the highest predicted result to the client.
+
+More information on each of these steps above can be found in the Research & Development Diary section below.
 
 # Project Plan
 * Week 1 - Initial research and setup of project.
@@ -43,7 +57,9 @@ More information on how the model is trained can be found in the Jupyter Noteboo
 * Week 3 - Training the MNIST dataset using Jupyter.
 * Week 4 - Development of Flask web application.	
 * Week 5 - Testing of web application with model.
-* Week 6 - Adding finishing touches, tidying up code, and adding extras.
+* Week 6 - Improving web application prediction.
+* Week 7 - Improving User Interface (UI) and User experience (UX).
+* Week 8 - Adding finishing touches, tidying up code, and adding extras.
 
 # Research & Development Diary
 
@@ -85,9 +101,11 @@ The next step was to allow the canvas to be larger as it was currently 28 x 28 p
 From further testing I wanted to increase the accuracy of the neural network, I first found that not inverting the image produced a higher accuracy when training and increased the speed of each epoch by 1 second. With this I updated the flask web application to handle this and modified the code to just use PIL while doing all the processing in memory. This also alleviated the need to save the image locally and reopened it like before during testing, which increased the response time.
 
 #### Week of 24-11-19 to 1-12-19
-As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application. 
+As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application. I added the ability to swap betweening drawing and erasing, the ability to change the pen size, and a check to see if the canvas is empty. I also added a tutorial for the user.
 
 I began with moving the javascript and css code to separate static files which cleaned up the html file. I also added styling to the buttons, sliders etc which drasically improved the user experience.
+
+Another area I wanted to look at was preprocessing the data. From watching the videos on Moodle relating to fine tuning models with scaling and Principal component analysis (PCA). I thought I would try it out myself to see the results, however from testing I have decided to not modify the data as it provides less accurate results unfortunately which is documented in the Jupyter Notebook in the Preprocessing section.
 
 #### Final Week
 
