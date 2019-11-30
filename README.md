@@ -84,10 +84,12 @@ The next step was to allow the canvas to be larger as it was currently 28 x 28 p
 
 From further testing I wanted to increase the accuracy of the neural network, I first found that not inverting the image produced a higher accuracy when training and increased the speed of each epoch by 1 second. With this I updated the flask web application to handle this and modified the code to just use PIL while doing all the processing in memory. This also alleviated the need to save the image locally and reopened it like before during testing, which increased the response time.
 
-#### Final Week
+#### Week of 24-11-19 to 1-12-19
 As I have the Jupyter Notebook, and Flask Application running and working correctly. This week was for tidying up code, adding styling and improving the user experience of the web application. 
 
 I began with moving the javascript and css code to separate static files which cleaned up the html file. I also added styling to the buttons, sliders etc which drasically improved the user experience.
+
+#### Final Week
 
 ## References 
 All references are also in code in respective areas.
@@ -106,6 +108,8 @@ https://www.tensorflow.org/api_docs/python/tf/set_random_seed
 * Activation Functions (Softmax etc): https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
 * Loss Functions: http://keras.io/losses/
 * Optimizers: https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/
+* Sklearn Preprocessing: https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing
+* Sklearn Decomposition: https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
 * Label Preprocessing: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelBinarizer.html
 * Save Model: https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
 * Graph Display: https://towardsdatascience.com/a-simple-2d-cnn-for-mnist-digit-recognition-a998dbc1e79a

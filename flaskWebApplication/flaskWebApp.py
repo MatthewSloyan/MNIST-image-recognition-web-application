@@ -6,7 +6,7 @@ from PIL import Image
 import PIL.ImageOps  
 import keras as kr
 from keras.models import load_model # To save and load models
-model = load_model('../test_model.h5')
+model = load_model('../trained_model.h5')
 import imageio
 import cv2
 from io import BytesIO
