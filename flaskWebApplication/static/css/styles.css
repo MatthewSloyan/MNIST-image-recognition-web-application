@@ -24,6 +24,18 @@ ul {
     display: inline-block;
 }
 
+
+/* Prevent nearby text being highlighted when dragging mouse outside the canvas accidentally.
+Code adapted from: https://stackoverflow.com/questions/39050460/drawing-on-canvas-using-touchscreen-devices */
+#canvas_div {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* Styling to improve button styling, started basic styling myself as 
 I have a good bit of experience but I got help from for the transitions below.*/
 /* https://www.fabriziovanmarciano.com/button-styles/ */

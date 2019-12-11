@@ -60,19 +60,19 @@ def predictImage():
     # Print Contents of image to console (test)
     # Developed from orginal C tests when starting the project. 
     # Prints out a 0 if black, and a . if white.
-    count = 0
+    #counter = 0
+    
+    # for i in imgGray[0]:
+    #     if i > 0:
+    #         # Adds space to end. More information here: https://www.geeksforgeeks.org/gfact-50-python-end-parameter-in-print/
+    #         print(".", end="")
+    #     else:
+    #         print("0", end="")
+    #     counter +=1
 
-    for i in imgGray[0]:
-        if i > 0:
-            # Adds space to end. More information here: https://www.geeksforgeeks.org/gfact-50-python-end-parameter-in-print/
-            print(".",end="")
-        else:
-            print("0",end="")
-        count +=1
-
-        if count == 28:
-            print("\n")
-            count = 0
+    #     if counter == 28:
+    #         print("\n")
+    #         counter = 0
 
     # Testing - print array of predicted result. £.g [[1.9111006e-02 1.0649475e-02 1.9441145e-02...]]
     # The highest value is the predicted result.

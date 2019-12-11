@@ -2,7 +2,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// Code mouse drawing is adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
+// Code for drawing is adapted from: https://www.html5canvastutorials.com/labs/html5-canvas-paint-application/
 
 // Initialize the mouse position to 0.
 var mouse = {x: 0, y: 0};
@@ -13,25 +13,40 @@ ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
 ctx.strokeStyle = '#ff0000';
 
+// Also works on mobile by swapping calls to touchmove, touchstart, and touchend.
+// Code adapted from: https://stackoverflow.com/questions/39050460/drawing-on-canvas-using-touchscreen-devices
+
+// Variables to pass to addEventListener(), to detect mouse clicks and movements.
+// These variables are changed to the mobile equivalent if on a mobile device.
+var start = 'mousedown', move = 'mousemove', end = 'mouseup';
+
+// Check if on mobile and change variables accordingly.
+// Code adapted from: https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+if (/Mobi/.test(navigator.userAgent)) {
+  start = 'touchstart';
+  move = 'touchmove';
+  end = 'touchend';
+}
+
 // Listener which is called when mouse movement is detected.
-canvas.addEventListener('mousemove', function(e) {
+canvas.addEventListener(move, function(e) {
   mouse.x = e.pageX - this.offsetLeft;
   mouse.y = e.pageY - this.offsetTop;
 }, false);
 
 // Listener which is called when mouse button is held down.
-canvas.addEventListener('mousedown', function(e) {
+canvas.addEventListener(start, function(e) {
   ctx.beginPath();
   ctx.moveTo(mouse.x, mouse.y);
 
   // Call mouse movement listener which will draw a line between each new mouse position.
-  canvas.addEventListener('mousemove', onPaint, false);
+  canvas.addEventListener(move, onPaint, false);
 }, false);
 
 // Listener which is called when mouse button is released.
-// Stops drawing by passing false to mousemove.
-canvas.addEventListener('mouseup', function() {
-  canvas.removeEventListener('mousemove', onPaint, false);
+// Stops drawing by passing false to touchmove.
+canvas.addEventListener(end, function() {
+  canvas.removeEventListener(move, onPaint, false);
 }, false);
 
 // Function to draw line from previous mouse position to new position.
@@ -45,7 +60,6 @@ function predictImage() {
 
   // Check if canvas is blank, if so then output error message. If not send to server.
   if(isCanvasBlank()){
-    console.log("Test");
     document.getElementById("result").innerHTML = "Canvas is blank, please draw a digit from 0-9.";
   }
   else {
