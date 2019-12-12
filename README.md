@@ -75,7 +75,7 @@ I wanted to learn more about how Keras works in the background and how neural ne
 With this knowledge I began to create a model using Keras, I used help from the official documentation and the videos on Moodle which gave me a good basis, but my own research really solidified how it all works. I set up the input layer with 784 inputs which is each pixel (28 x 28). I then set up the hidden layers and finally an output layer of 10 neurons which will represents the numbers 0-9. Using this model, I reshaped the training data into the a two-dimensional numpy array consisting of 784 indexes. With this the data could be fed in the neural network and trained. From basic tests the results were promising accuracy of 94% but I will try and improve this with time.
 
 #### Week of 20-10-19 to 27-10-19
-With the model trained and tested, I began to move the code to a Jupyter Notebook. I also did some extra research into how I could improve the training accuracy. By increasing the epochs and tweaking the model I got the accuracy to 96% which still can be improved. With time I will also add more to the notebook as I learn more. I also researched how the model could possibly be saved so that retraining won't be required every time it's run, this will be useful for the flask application. To achieve this, I found the load_model from the Keras documentation which saves a .h5 binary file.
+With the model trained and tested, I began to move the code to a Jupyter Notebook. I also did some extra research into how I could improve the training accuracy. By increasing the epochs and tweaking the model I got the accuracy to 96% which still can be improved. With time I will also add more to the notebook as I learn more. I also researched how the model could possibly be saved so that retraining won't be required every time it's run, this will be useful for the flask application. To achieve this, I found the load_model from the Keras documentation which saves a .h5 binary file. [(Saving the model).](https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model)
 
 #### Week of 27-10-19 to 3-11-19
 The next step was to pull it all together and create the Flask web application for the project. To begin I researched how Flask works and what it does in the background. I then created a basic Flask web application with a basic home page. On this page is a small 28 x 28 canvas which the user can draw a little number. I am currently using this for testing purposes and will scale the image accordingly once I get it working correctly. 
@@ -105,9 +105,13 @@ As I have the Jupyter Notebook, and Flask Application running and working correc
 
 I began with moving the javascript and css code to separate static files which cleaned up the html file. I also added styling to the buttons, sliders etc which drasically improved the user experience.
 
-Another area I wanted to look at was preprocessing the data. From watching the videos on Moodle relating to fine tuning models with scaling and Principal component analysis (PCA). I thought I would try it out myself to see the results, however from testing I have decided to not modify the data as it provides less accurate results unfortunately which is documented in the Jupyter Notebook in the Preprocessing section.
+Another area I wanted to look at was preprocessing the data. From watching the videos on Moodle relating to fine tuning models with scaling and Principal component analysis (PCA). [(Scaling)](https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing) [(PCA)](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) I thought I would try it out myself to see the results, however from testing I have decided to not modify the data as it provides less accurate results unfortunately which is documented in the Jupyter Notebook in the Preprocessing section.
 
-#### Final Week
+#### Final Weeks
+Over the last few weeks I began to tidy up the project as a whole and get it read for final submission. Another area I looked at was getting the canvas to work on Mobile devices. To achieve this, I added a check to see if the user is on mobile, if so it would swap variables that are passed into the draw functions. [(Check if mobile)](https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device). As on mobile it uses touch rather than the mouse so mousemove has to be changed to touchmove. [(Canvas on mobile)](https://stackoverflow.com/questions/39050460/drawing-on-canvas-using-touchscreen-devices) With this implemented I was at the final stage of a fully implemented solution that met and exceeded the requirements and my goals. I also ran some final tests and created the video submission.
+
+#### Conclusion
+Overall, I am very happy with how the project turned out, and it has been an extremely good learning experience. Especially in the areas of deep learning and neural networks which is something I would like to pursue in a career. I have also learned a lot more about Python, Flask, Javascript, HTML, Jupyter and many others. 
 
 ## References 
 All references are also in code in respective areas.
@@ -142,9 +146,12 @@ Frontend:
 * xhttp: https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
 * Clear Canvas: https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
 * Check if blank: https://stackoverflow.com/questions/17386707/how-to-check-if-a-canvas-is-blank
+* Touchscreen devices: https://stackoverflow.com/questions/39050460/drawing-on-canvas-using-touchscreen-devices
+https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
 * Styling: https://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html
 https://www.fabriziovanmarciano.com/button-styles/
 https://www.w3schools.com/howto/howto_js_rangeslider.asp
+
 
 Backend (Flask): 
 * Flask: https://www.palletsprojects.com/p/flask/
