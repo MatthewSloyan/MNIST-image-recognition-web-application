@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 
 # Adapted from: https://docs.python.org/3/library/gzip.html
 # Open the MNIST dataset of 10000 testing images.
-with gzip.open('MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
     file_content = f.read()
 
 # Open the label dataset like before.
-with gzip.open('MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
     labels = f.read()
 
 # Get the label for a specific image (Expected result = 4)

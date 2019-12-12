@@ -35,17 +35,17 @@ import matplotlib.pyplot as plt # Plot results graphically
 # =========================
 
 # Read in the training and test images with labels using gzip
-with gzip.open('../MNIST_Images/train-images-idx3-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/train-images-idx3-ubyte.gz', 'rb') as f:
     train_imgs = f.read()
 
-with gzip.open('../MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/train-labels-idx1-ubyte.gz', 'rb') as f:
     train_lbls = f.read()
 
 # Open test images (10000)
-with gzip.open('../MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/t10k-images-idx3-ubyte.gz', 'rb') as f:
     test_imgs = f.read()
 
-with gzip.open('../MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+with gzip.open('../Jupyter Notebook/MNIST_Images/t10k-labels-idx1-ubyte.gz', 'rb') as f:
     test_lbls = f.read()
 
 # Set up a neural network model, building it layer by layer sequentially.
